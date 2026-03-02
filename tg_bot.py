@@ -1,7 +1,7 @@
 """Financial Chart Telegram Bot — fly.io 배포용.
 
 역할:
-1. Telegram 폴링: /search, /list, /today, /help 명령어 처리
+1. Telegram 폴링: /search_chrt, /list_chrt, /today_chrt, /help_chrt 명령어 처리
 2. HTTP 서버 (aiohttp, port 8080): app.py에서 차트 메타데이터 수신
 """
 
@@ -93,20 +93,20 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         f"Financial Chart Bot\n"
         f"Chat ID: {chat_id}\n"
         f"저장된 차트: {count}개\n\n"
-        f"/search <키워드> — 차트 검색\n"
-        f"/list — 최근 차트\n"
-        f"/today — 오늘 차트\n"
-        f"/help — 도움말"
+        f"/search_chrt <키워드> — 차트 검색\n"
+        f"/list_chrt — 최근 차트\n"
+        f"/today_chrt — 오늘 차트\n"
+        f"/help_chrt — 도움말"
     )
 
 
 async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
         "<b>Financial Chart Bot 도움말</b>\n\n"
-        "/search &lt;키워드&gt; — 차트 검색 (예: /search VIAV EBITDA)\n"
-        "/list — 최근 차트 10개\n"
-        "/today — 오늘 생성된 차트\n"
-        "/start — 봇 상태\n\n"
+        "/search_chrt &lt;키워드&gt; — 차트 검색 (예: /search_chrt VIAV EBITDA)\n"
+        "/list_chrt — 최근 차트 10개\n"
+        "/today_chrt — 오늘 생성된 차트\n"
+        "/start_chrt — 봇 상태\n\n"
         "키워드를 바로 입력해도 검색됩니다.",
         parse_mode="HTML",
     )
@@ -116,7 +116,7 @@ async def cmd_search(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     """키워드로 차트 검색."""
     keywords = context.args or []
     if not keywords:
-        await update.message.reply_text("사용법: /search <키워드>\n예: /search VIAV EBITDA")
+        await update.message.reply_text("사용법: /search_chrt <키워드>\n예: /search_chrt VIAV EBITDA")
         return
     await _do_search(update, keywords)
 
@@ -277,11 +277,11 @@ def main() -> None:
     tg_app = Application.builder().token(BOT_TOKEN).build()
 
     # 핸들러 등록
-    tg_app.add_handler(CommandHandler("start", cmd_start))
-    tg_app.add_handler(CommandHandler("help", cmd_help))
-    tg_app.add_handler(CommandHandler("search", cmd_search))
-    tg_app.add_handler(CommandHandler("list", cmd_list))
-    tg_app.add_handler(CommandHandler("today", cmd_today))
+    tg_app.add_handler(CommandHandler("start_chrt", cmd_start))
+    tg_app.add_handler(CommandHandler("help_chrt", cmd_help))
+    tg_app.add_handler(CommandHandler("search_chrt", cmd_search))
+    tg_app.add_handler(CommandHandler("list_chrt", cmd_list))
+    tg_app.add_handler(CommandHandler("today_chrt", cmd_today))
     tg_app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
 
     # HTTP 서버를 봇 시작 전에 비동기로 실행

@@ -1,0 +1,140 @@
+{
+  "OPM": {
+    "full_name": "Operating Profit Margin",
+    "formula": "Operating Income / Revenue * 100",
+    "confirmed_at": "2026-03-02"
+  },
+  "Adj OPM": {
+    "full_name": "Adjusted Operating Profit Margin",
+    "formula": "(Operating Income + Adjustments) / Revenue * 100",
+    "note": "One-off 비용 제외",
+    "confirmed_at": "2026-03-02"
+  },
+  "GPM": {
+    "full_name": "Gross Profit Margin",
+    "formula": "(Revenue - COGS) / Revenue * 100",
+    "confirmed_at": "2026-03-02"
+  },
+  "NIM": {
+    "full_name": "Net Income Margin",
+    "formula": "Net Income / Revenue * 100",
+    "confirmed_at": "2026-03-02"
+  },
+  "EBITDA": {
+    "full_name": "Earnings Before Interest, Taxes, Depreciation & Amortization",
+    "formula": "Operating Income + D&A",
+    "confirmed_at": "2026-03-02"
+  },
+  "YoY": {
+    "full_name": "Year over Year Growth",
+    "formula": "(Current - Prior) / |Prior| * 100",
+    "confirmed_at": "2026-03-02"
+  },
+  "QoQ": {
+    "full_name": "Quarter over Quarter Growth",
+    "formula": "(Current Q - Prior Q) / |Prior Q| * 100",
+    "confirmed_at": "2026-03-02"
+  },
+  "CAPEX": {
+    "full_name": "Capital Expenditure",
+    "formula": "Purchase of PP&E + Purchase of Intangibles",
+    "confirmed_at": "2026-03-02"
+  },
+  "OPEX": {
+    "full_name": "Operating Expense",
+    "formula": "SG&A + R&D + Other Operating Expenses",
+    "confirmed_at": "2026-03-02"
+  },
+  "FCF": {
+    "full_name": "Free Cash Flow",
+    "formula": "Operating Cash Flow - CAPEX",
+    "confirmed_at": "2026-03-02"
+  },
+  "ROE": {
+    "full_name": "Return on Equity",
+    "formula": "Net Income / Shareholders Equity * 100",
+    "confirmed_at": "2026-03-02"
+  },
+  "ROA": {
+    "full_name": "Return on Assets",
+    "formula": "Net Income / Total Assets * 100",
+    "confirmed_at": "2026-03-02"
+  },
+  "D/E": {
+    "full_name": "Debt to Equity Ratio",
+    "formula": "Total Debt / Shareholders Equity",
+    "confirmed_at": "2026-03-02"
+  },
+  "EV/EBITDA": {
+    "full_name": "Enterprise Value to EBITDA",
+    "formula": "Enterprise Value / EBITDA",
+    "note": "Valuation multiple",
+    "confirmed_at": "2026-03-02"
+  },
+  "P/E": {
+    "full_name": "Price to Earnings Ratio",
+    "formula": "Stock Price / EPS",
+    "note": "Valuation multiple",
+    "confirmed_at": "2026-03-02"
+  },
+  "NTM": {
+    "full_name": "Next Twelve Months",
+    "note": "Forward-looking 12개월 기준",
+    "confirmed_at": "2026-03-02"
+  },
+  "LTM": {
+    "full_name": "Last Twelve Months",
+    "note": "Trailing 12개월 기준",
+    "confirmed_at": "2026-03-02"
+  },
+
+  "__alias_rules__": {
+    "full_name": "용어 동의어/별칭 매핑 규칙",
+    "note": "엑셀에서 아래 용어들은 같은 의미로 취급",
+    "aliases": {
+      "Adj": ["Adjusted", "Non-GAAP", "Non GAAP"],
+      "Adj EBITDA": ["Adjusted EBITDA", "EBITDA (Non-GAAP)", "EBITDA Non-GAAP", "Non-GAAP EBITDA"],
+      "Adj OPM": ["Adjusted Operating Margin", "Non-GAAP Operating Margin"],
+      "Adj EPS": ["Adjusted EPS", "Non-GAAP EPS", "EPS (Non-GAAP)"],
+      "Adj Net Income": ["Adjusted Net Income", "Non-GAAP Net Income"],
+      "Adj Gross Margin": ["Adjusted Gross Margin", "Non-GAAP Gross Margin"],
+      "Adj Revenue": ["Adjusted Revenue", "Non-GAAP Revenue"]
+    },
+    "confirmed_at": "2026-03-02"
+  },
+
+  "__chart_format_rules__": {
+    "full_name": "기본 차트 포맷 규칙",
+    "note": "유저 별도 요청 없으면 아래 규칙 자동 적용",
+    "rules": [
+      "숫자 데이터 ($m 등) → 묶은 세로 막대형 (bar), render_type: bar",
+      "% 데이터 → 꺾은선형 (line), render_type: line, 라벨에 % 표시",
+      "숫자 + % 혼합 또는 같은 단위라도 값 차이 2배 이상 → 보조축 사용 (combo)",
+      "combo 차트: 왼쪽 Y축 = 숫자 막대, 오른쪽 Y축 = % 꺾은선",
+      "데이터 라벨 항상 표시",
+      "% 소수점 첫째 자리 (예: 15.4%)"
+    ],
+    "confirmed_at": "2026-03-02"
+  },
+
+  "__chart_terms__combo": {
+    "full_name": "Combo Chart (콤보 차트)",
+    "note": "막대 + 꺾은선을 한 차트에 표시. 보조축 사용. EBITDA($m) + Margin(%) 같은 경우",
+    "confirmed_at": "2026-03-02"
+  },
+  "__chart_terms__secondary_axis": {
+    "full_name": "Secondary Axis (보조축)",
+    "note": "오른쪽 Y축. 단위가 다르거나 값 스케일 차이 2배 이상일 때 사용",
+    "confirmed_at": "2026-03-02"
+  },
+  "__chart_terms__stacked_bar": {
+    "full_name": "Stacked Bar Chart (누적 막대)",
+    "note": "Revenue Mix, Segment 구성비 등에 사용",
+    "confirmed_at": "2026-03-02"
+  },
+  "__chart_terms__grouped_bar": {
+    "full_name": "Grouped Bar Chart (묶은 막대)",
+    "note": "같은 단위의 여러 항목 비교 시 사용. 기본 bar 차트",
+    "confirmed_at": "2026-03-02"
+  }
+}

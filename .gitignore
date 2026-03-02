@@ -1,0 +1,31 @@
+# secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Output
+output/
+Screenshot 정리/
+
+# fly.io (별도 배포)
+Dockerfile
+fly.toml
+.dockerignore
+requirements-bot.txt
+
+# IDE
+.vscode/
+.idea/
+.claude/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Misc
+*.log
+*.bat
+*.xlsx

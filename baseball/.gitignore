@@ -1,0 +1,8 @@
+# 원본 캐시 (KBO_statics clone, 스탯티즈 HTML)
+data/raw/
+
+# 생성 데이터: repo가 public인 동안은 커밋하지 않음 (실명 + 기록 재배포 방지).
+# private 전환 후 아래 두 줄을 지우고 커밋하면 됨. 언제든 파이프라인으로 재생성 가능.
+data/processed/
+data/cards/
+data/exports/

@@ -1,0 +1,15 @@
+{
+  "_comment": "실제 구단(데이터 매칭용) ↔ 게임 표시용 가상 팀명. real_names는 원본 데이터의 팀 표기를 매칭하는 데만 쓰고 화면에는 display_name만 노출. display_name/colors는 임시값이라 자유롭게 바꿔도 됨.",
+  "franchises": [
+    {"id": "daegu",    "real_names": ["삼성"],               "display_name": "대구 블루크라운",  "colors": ["#1f4e9c", "#ffffff"]},
+    {"id": "jamsil_a", "real_names": ["두산"],               "display_name": "서울 네이비스",    "colors": ["#1b2a4a", "#c8c8c8"]},
+    {"id": "jamsil_b", "real_names": ["LG"],                 "display_name": "서울 미드나잇",    "colors": ["#2b2b2b", "#b0124a"]},
+    {"id": "gwangju",  "real_names": ["KIA", "기아"],        "display_name": "광주 레드엠버",    "colors": ["#a3161c", "#222222"]},
+    {"id": "busan",    "real_names": ["롯데"],               "display_name": "부산 하버스",      "colors": ["#0d2a5c", "#d9d9d9"]},
+    {"id": "daejeon",  "real_names": ["한화"],               "display_name": "대전 플레임스",    "colors": ["#e8641b", "#1a1a1a"]},
+    {"id": "incheon",  "real_names": ["SK", "SSG"],          "display_name": "인천 스카이라인",  "colors": ["#c8102e", "#f2c400"]},
+    {"id": "heroes",   "real_names": ["넥센", "키움", "히어로즈", "우리"], "display_name": "서울 버건디스", "colors": ["#6b1e2e", "#e5e5e5"]},
+    {"id": "changwon", "real_names": ["NC"],                 "display_name": "창원 코스트라인",  "colors": ["#14325c", "#b38b4d"]},
+    {"id": "suwon",    "real_names": ["KT"],                 "display_name": "수원 볼티지",      "colors": ["#111111", "#d71920"]}
+  ]
+}

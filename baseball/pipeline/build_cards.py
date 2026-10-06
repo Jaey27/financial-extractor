@@ -196,7 +196,8 @@ def main() -> None:
         (config.CARDS_DIR / f"{name}.json").write_text(
             json.dumps(result[name], ensure_ascii=False, indent=1), encoding="utf-8")
 
-    print(f"대상 선수(누적 {config.MIN_CAREER_GAMES}경기+): 타자 {result['eligible']['batters']}명, "
+    alt = f" 또는 {config.PITCHER_ALT_MIN_IP:g}이닝+" if config.PITCHER_ALT_MIN_IP else ""
+    print(f"대상 선수(누적 {config.MIN_CAREER_GAMES}경기+{alt}): 타자 {result['eligible']['batters']}명, "
           f"투수 {result['eligible']['pitchers']}명")
     print(f"카드: 타자 {len(result['batters']):,}장, 투수 {len(result['pitchers']):,}장 → {config.CARDS_DIR}")
     if result["unmapped_teams"]:

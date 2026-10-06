@@ -6,28 +6,29 @@
 
 - 기간: 2010~2026 KBO 1군 정규시즌. 2026은 시즌 진행 중이라 소스 기준 시각 값임 (`partial_season` 표시).
 - 카드 대상: 기간 안 누적 출장 100경기 이상인 선수. 타자는 타자 출장(G), 투수는 등판(G)으로 각각 판단.
+  투수는 누적 150이닝 이상이어도 대상 (2026-10-06 결정, `config.PITCHER_ALT_MIN_IP`).
   대상 선수는 기간 안 모든 시즌에 카드가 생김 (표본 작은 시즌은 `small_sample` 표시 + 리그 평균 쪽 보정).
 - 리그 평균·표준편차는 대상 여부와 상관없이 그 시즌 1군 전 선수로 계산함.
-- 현재 결과 (소스 커밋 `4b4b7b5`, 2026-10-06 07:19 기준): 타자 519명 3,721장, 투수 324명 2,575장.
+- 현재 결과 (소스 커밋 `4b4b7b5`, 2026-10-06 07:19 기준): 타자 519명 3,721장, 투수 439명 2,872장.
 
-### 100경기 기준의 영향 (결정 필요)
+### 투수 150이닝 보조 기준을 둔 이유
 
-선발투수는 시즌당 25~30경기라 2~3시즌 뛴 외국인 에이스가 대거 빠짐.
-예: 헥터 2016~2018 90경기 582이닝, 데스파이네 2020~2022 98경기 559이닝, 2023 한 시즌만 뛴 페디도 제외.
-`config.PITCHER_ALT_MIN_IP`로 이닝 보조 기준을 켤 수 있음.
+선발투수는 시즌당 25~30경기라 100경기만 보면 2~3시즌 뛴 외국인 에이스가 대거 빠짐.
+예: 헥터 2016~2018 90경기 582이닝, 데스파이네 2020~2022 98경기 559이닝, 2023 한 시즌 페디(30경기 180⅓이닝).
+150이닝 ≈ 선발 한 시즌 풀타임이라 타자 100경기 ≈ 한 시즌과 형평이 맞음.
 
-| 투수 보조 기준 | 추가 인원 | 의미 |
+| 투수 보조 기준 | 추가 인원 | 비고 |
 |---|---|---|
-| 없음 (현재) | 0 | 요청 기준 그대로 |
-| 300이닝 | +25명 | 2~3시즌 선발 구제 |
-| 150이닝 | +115명 | 한 시즌 풀타임 선발 구제 (타자 100경기 ≈ 한 시즌과 형평) |
+| 없음 | 0 | 투수 324명 |
+| 300이닝 | +25명 | 2~3시즌 선발만 구제 |
+| 150이닝 (채택) | +115명 | 투수 439명 |
 
 ## 2. 데이터 소스 비교 (2026-10-06 조사)
 
 | 소스 | 범위 | 장점 | 한계 | 이 클라우드 환경 접근 |
 |---|---|---|---|---|
 | [KBO_statics](https://github.com/PsyproLEE/KBO_statics) (GitHub 공개 repo) — 1차 채택 | 1982~2026, 시즌별 1군 전 선수 | KBO 공식 기록을 매일 자동 수집해 JSON으로 커밋. 지금 바로 사용 가능 | 도루·투타·포지션은 현역만, 선발등판(GS) 없음, WAR 없음. 개인 repo라 갱신 중단 위험 | 가능 (git) |
-| [KBO 공식 기록실](https://www.koreabaseball.com/Record/Player/HitterBasic/Basic1.aspx) | 1982~ | 원 출처. 선수별 연도별 기록([예시](https://www.koreabaseball.com/Record/Player/HitterDetail/Total.aspx?playerId=75847)), 주루·수비 기록 페이지 따로 있음 | ASP.NET 포스트백이라 수집이 번거로움, 고급 지표 없음 | 차단 |
+| [KBO 공식 기록실](https://www.koreabaseball.com/Record/Player/HitterBasic/Basic1.aspx) | 1982~ | 원 출처. 선수별 연도별 기록([예시](https://www.koreabaseball.com/Record/Player/HitterDetail/Total.aspx?playerId=75847)), 투수 세부기록에 선발등판 GS([Detail1](https://www.koreabaseball.com/Record/Player/PitcherBasic/Detail1.aspx)), 주루 기록은 [팀 단위 페이지](https://www.koreabaseball.com/Record/Team/Runner/Basic.aspx)까지 확인 | ASP.NET 포스트백이라 수집이 번거로움, 고급 지표 없음 | 차단 |
 | [스탯티즈](https://statiz.sporki.com/stats/?m=main&m2=pitching) | 1982~ | WAR 등 세이버 지표, 선수별 연도별 페이지([예시](https://statiz.sporki.com/player/?m=year&p_no=10590)) | 표 구조·로그인 필요 여부 미확인, 이용약관 확인 필요 | 차단 |
 | [Baseball-Reference](https://www.baseball-reference.com/register/korean-baseball-league-stats.shtml) | 1982~2026 (페이지 표기) | 영문, 선수별 커리어 | [분당 20회 넘으면 차단](https://www.sports-reference.com/bot-traffic.html), [데이터 정책](https://www.sports-reference.com/data_use.html)상 경쟁 DB 구축·AI 학습/프롬프트 사용 금지 → 이 프로젝트엔 부적합 | 차단 |
 | [FanGraphs KBO](https://www.fangraphs.com/leaders/international/kbo) | [2002~](https://blogs.fangraphs.com/introducing-kbo-stats-on-fangraphs/) | 2020~21은 [구종·구속·헛스윙률·타구 데이터](https://blogs.fangraphs.com/instagraphs/new-and-updated-kbo-data-now-available/)까지 있음 | 2022년 이후 갱신 여부 미확인 | 차단 |
@@ -127,7 +128,7 @@ python -m pipeline.export_excel     # 카드 → data/exports/kbo_cards_2010_202
 자동 (커밋 전 매번)
 - 단위 테스트: `cd baseball && python -m unittest discover -s tests -t .` (가상 선수 데이터)
 - 소스 내부 교차검증: 현역 선수 상세 페이지 연도별 기록 vs 시즌 기록실 → 2010~2025 2,833개 시즌 G·PA·H·HR·SO(투수 G·IP·SO·TBF)와 팀 전부 일치.
-- 잘 알려진 기록 대조: 2014 서건창 201안타 .370, 2014 박병호 52홈런, 2015 박병호 53홈런, 2015 테임즈 47홈런 .381, 2010 류현진 ERA 1.82 192⅔이닝, 2010 이대호 44홈런 .364 → 일치.
+- 잘 알려진 기록 대조: 2014 서건창 201안타 .370, 2014 박병호 52홈런, 2015 박병호 53홈런, 2015 테임즈 47홈런 .381, 2010 류현진 ERA 1.82 192⅔이닝, 2010 이대호 44홈런 .364, 2023 페디 ERA 2.00 209탈삼진 → 일치.
 
 사람 (데이터 확정 전 1회)
 - 팀별로 아무 시즌 1개씩 골라 KBO 공식 기록실 값과 5명 대조.
@@ -137,9 +138,9 @@ python -m pipeline.export_excel     # 카드 → data/exports/kbo_cards_2010_202
 
 | 항목 | 현재 | 보강 방법 |
 |---|---|---|
-| 은퇴 선수 도루(SB/CS) | 없음 → 도루능력 None, 주루는 나머지 지표로 계산 | KBO 공식 주루 기록 페이지 또는 스탯티즈 |
-| 은퇴 선수 투타·포지션 | 없음 | KBO 공식 선수 상세(은퇴 선수 페이지) 또는 스탯티즈 |
-| 투수 선발등판(GS) | 없음 → 투구수로 역할 추정 | KBO 공식 투수 세부 기록 |
+| 은퇴 선수 도루(SB/CS) | 없음 → 도루능력 None, 주루는 나머지 지표로 계산 | KBO 은퇴 선수 페이지 `Record/Retire/Hitter.aspx?playerId=` (소스 `detailUrl`에 있음) 연도별 표 — SB/CS 컬럼 유무 확인 필요. 안 되면 스탯티즈 |
+| 은퇴 선수 투타·포지션 | 없음 | 같은 은퇴 선수 페이지 프로필 (`Record/Retire/Pitcher.aspx?playerId=`도 있음). 현역 페이지는 `.player_basic`/`.player_info`의 '포지션: 외야수(우투좌타)' 형식 |
+| 투수 선발등판(GS) | 없음 → 투구수로 역할 추정 | [투수 세부기록 Detail1](https://www.koreabaseball.com/Record/Player/PitcherBasic/Detail1.aspx) GS 컬럼 (시즌·팀 선택은 포스트백) |
 | 수비 | 없음 | 스탯티즈 수비 지표 또는 포지션 기본값 |
 | WAR | 없음 | 스탯티즈 (선택) |
 | 구종·구속 | 없음 | FanGraphs 2020~21 정도만 확인됨. 게임에선 기본 구종 세트로 시작 |

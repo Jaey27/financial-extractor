@@ -26,9 +26,9 @@ YEAR_END = 2026
 # 카드 대상: YEAR_START~YEAR_END 1군 정규시즌 누적 출장 경기수.
 # 타자는 타자 출장(G), 투수는 등판(G)으로 각각 판단.
 MIN_CAREER_GAMES = 100
-# 투수 보조 기준. 예: 300 → 누적 300이닝 이상이면 100경기 미만이어도 포함
-# (1~2시즌만 뛴 외국인 선발 구제용). None이면 사용 안 함.
-PITCHER_ALT_MIN_IP: float | None = None
+# 투수 보조 기준: 누적 이 이닝 이상이면 100경기 미만이어도 포함. None이면 사용 안 함.
+# 150이닝 ≈ 선발 한 시즌 풀타임 (타자 100경기 ≈ 한 시즌과 형평). 2026-10-06 결정.
+PITCHER_ALT_MIN_IP: float | None = 150
 
 # ── 보강 소스: 스탯티즈 (네트워크 허용 후 사용) ──────────────
 STATIZ_BASE = "https://statiz.sporki.com"

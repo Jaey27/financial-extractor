@@ -56,7 +56,9 @@ def main() -> None:
         "체력/역할", "OVR", "소표본", "결측",
     ], "내용": [
         meta["source"], meta["original_source"], meta["source_commit"], meta["source_updated_at"],
-        f"{config.YEAR_START}~{config.YEAR_END} 1군 정규시즌 누적 {config.MIN_CAREER_GAMES}경기 이상 선수의 전 시즌",
+        f"{config.YEAR_START}~{config.YEAR_END} 1군 정규시즌 누적 {config.MIN_CAREER_GAMES}경기 이상"
+        + (f" (투수는 또는 누적 {config.PITCHER_ALT_MIN_IP:g}이닝 이상)" if config.PITCHER_ALT_MIN_IP else "")
+        + " 선수의 전 시즌",
         ", ".join(map(str, meta["partial_years"])) or "없음",
         f"같은 시즌 리그 평균={config.RATING_MEAN}, 1표준편차={config.RATING_SD} (1~99). 시대 효과 제거",
         "타율 / 삼진 억제 / 홈런·순장타율 / 고의4구 제외 볼넷 / 인플레이 타구 안타율(BABIP)",

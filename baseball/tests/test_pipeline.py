@@ -6,11 +6,12 @@
 from __future__ import annotations
 
 import unittest
+from unittest import mock
 
 import pandas as pd
 
 from pipeline import config
-from pipeline.build_cards import build
+from pipeline.build_cards import build, eligible_ids
 from pipeline.kbo_statics import parse_profile
 from pipeline.parse import format_ip, parse_ip_outs, to_num
 from pipeline.statiz import normalize_season_table, player_links
@@ -64,6 +65,16 @@ def fake_pitching() -> pd.DataFrame:
                 "H": int(tbf * 0.24), "HR": 5 + i, "BB": int(tbf * (0.06 + 0.005 * i)),
                 "IBB": 0, "HBP": 3, "SO": int(tbf * (0.25 - 0.01 * i)), "R": 50, "ER": 45,
             })
+    # 한 시즌만 뛴 가상 외국인 선발: 30경기 180이닝 → 150이닝 보조 기준으로 포함
+    rows.append({"player_id": "8900", "name": "가상에이스", "year": 2019, "team": "NC",
+                 "G": 30, "W": 15, "L": 5, "SV": 0, "HLD": 0, "TBF": 720, "NP": 30 * 98,
+                 "IP_outs": 540, "H": 150, "HR": 10, "BB": 35, "IBB": 0, "HBP": 4, "SO": 190,
+                 "R": 55, "ER": 50})
+    # 30경기 100이닝: 경기·이닝 기준 모두 미달 → 제외
+    rows.append({"player_id": "8901", "name": "가상스윙맨", "year": 2019, "team": "KT",
+                 "G": 30, "W": 4, "L": 6, "SV": 0, "HLD": 2, "TBF": 430, "NP": 30 * 40,
+                 "IP_outs": 300, "H": 110, "HR": 12, "BB": 40, "IBB": 0, "HBP": 3, "SO": 80,
+                 "R": 50, "ER": 47})
     return pd.DataFrame(rows)
 
 
@@ -127,6 +138,12 @@ class TestBuildCards(unittest.TestCase):
         self.assertIn("B9900-2014", self.bat)  # 누적 115경기 → 대상
         self.assertNotIn("B9901-2019", self.bat)  # 누적 30경기 → 제외
         self.assertEqual(self.result["eligible"]["batters"], 13)
+
+    def test_pitcher_alt_innings_rule(self):
+        self.assertIn("P8900-2019", self.pit)  # 30경기 180이닝 → 포함
+        self.assertNotIn("P8901-2019", self.pit)  # 30경기 100이닝 → 제외
+        with mock.patch.object(config, "PITCHER_ALT_MIN_IP", None):
+            self.assertNotIn("8900", eligible_ids(fake_pitching(), "pitching"))
 
     def test_small_sample_flag(self):
         self.assertTrue(self.bat["B9900-2014"]["small_sample"])
